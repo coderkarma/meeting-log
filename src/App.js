@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Link } from '@reach/router';
+import { Router } from '@reach/router';
 import firebase from './Firebase';
 
 import Home from './Home';
@@ -15,7 +15,7 @@ class App extends Component {
 	};
 
 	// check the database when component is mounting
-	componentDidMount(e) {
+	componentDidMount() {
 		const ref = firebase.database().ref('user');
 
 		ref.on('value', snapshot => {
