@@ -3,16 +3,21 @@ import { Link } from '@reach/router';
 
 class Welcome extends Component {
 	render() {
-        const { user } = this.props;
-        
+		const { userName, logoutUser } = this.props;
+
 		return (
-			<div className="text-center mt-4">
-            <span className="text-secondary font-weight-bold pl-1">
-				Welcome {user}
-				<Link to="/" className="font-weight-bold pl-1">
-                Logout
-                </Link>
-                </span> 
+			<div className='text-center mt-4'>
+				<span className='text-secondary font-weight-bold pl-1'>
+					Welcome {userName}
+				</span>
+
+				<Link
+					to='/login'
+					className='font-weight-bold pl-1'
+					onClick={(e) => logoutUser(e)}
+				>
+					Logout
+				</Link>
 			</div>
 		);
 	}
