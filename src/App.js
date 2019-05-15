@@ -7,7 +7,7 @@ import Welcome from './Welcome';
 import Navigation from './Navigation';
 import Login from './Login';
 import Register from './Register';
-import Meeting from './Meetings';
+import Meetings from './Meetings';
 
 class App extends Component {
 	state = {
@@ -25,6 +25,29 @@ class App extends Component {
 					displayName : FBUser.displayName,
 					userID      : FBUser.uid
 				});
+
+				const meetingRef = firebase
+					.database()
+					.ref('meetings/' + FBUser.uid);
+
+				meetingRef.on('value', (snapshot) => {
+					let meetings = snapshot.val();
+					let meetingList = [];
+
+					for (let item in meetings) {
+						meetingList.push({
+							meetingID   : item,
+							meetingName : meetings[item].meetingName
+						});
+					}
+
+					this.setState({
+						meetings        : meetingList,
+						howManyMeetings : meetingList.length
+					});
+				});
+			} else {
+				this.setState({ user: null });
 			}
 		});
 	};
@@ -87,10 +110,12 @@ class App extends Component {
 						registerUser={this.registerUser}
 					/>
 
-					<Meeting
+					<Meetings
 						path='/meetings'
 						user={this.state.user}
 						addMeeting={this.addMeeting}
+						meetings={this.state.meetings}
+						userID={this.state.userID}
 					/>
 				</Router>
 			</div>
